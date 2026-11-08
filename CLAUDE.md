@@ -216,3 +216,15 @@ git commit -m "chore: release vX.Y.Z"
 git tag vX.Y.Z
 git push origin master --tags
 ```
+
+## Fork notes (zgibb/OddsHarvester, branch `zack/main`)
+
+Used as the odds scraper for the sports engine in `../sports-engine`. See `CHANGES.md` for stock vs. fork, and
+`../../../README.md` (trading-hub rules) and `../PROMPT.md`.
+
+- Never push to `upstream`; its push URL is `DISABLED`. Our branch is `zack/main`, not `master`.
+- On this PC set `ODDSHARVESTER_BROWSER_CHANNEL=msedge` (bundled Chromium will not start).
+- Be polite: low concurrency (`-c 1`), `--request-delay 3` or more. If OddsPortal blocks or challenges, stop and report; do
+  not rotate proxies or try to get around it.
+- Basketball market is `home_away`. The US view returned only one bookmaker (`bet365.us`) per game, no Pinnacle.
+- Our own code goes in `sports-engine`, not here.

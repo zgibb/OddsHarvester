@@ -115,8 +115,13 @@ class PlaywrightManager:
             browser_args = PLAYWRIGHT_BROWSER_ARGS_DOCKER if is_running_in_docker() else PLAYWRIGHT_BROWSER_ARGS
             launch_proxy = proxy_manager.launch_proxy() if proxy_manager else None
             # The headless shell names HeadlessChrome in sec-ch-ua whatever the user agent; full Chromium does not.
+            # Fork change (zack/main): channel is overridable, e.g. ODDSHARVESTER_BROWSER_CHANNEL=msedge, because
+            # Playwright's bundled full Chromium fails to start on this Windows build (see CHANGES.md).
             self.browser = await self.playwright.chromium.launch(
-                channel="chromium", headless=headless, args=browser_args, proxy=launch_proxy
+                channel=os.environ.get("ODDSHARVESTER_BROWSER_CHANNEL", "chromium"),
+                headless=headless,
+                args=browser_args,
+                proxy=launch_proxy,
             )
 
             effective_user_agent = user_agent or await self._browser_user_agent()
